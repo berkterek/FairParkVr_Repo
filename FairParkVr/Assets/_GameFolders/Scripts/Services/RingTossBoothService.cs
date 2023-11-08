@@ -36,6 +36,7 @@ namespace FairParkVr.Services
             for (int i = 0; i < _rings.Length; i++)
             {
                 _rings[i].transform.SetPositionAndRotation(_ringStartPositions[i], _ringStartRotations[i]);
+                if (_rings[i].TryGetComponent(out Rigidbody rigidbody)) rigidbody.velocity = Vector3.zero;
             }
 
             ChangeScore();
