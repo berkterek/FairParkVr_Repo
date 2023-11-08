@@ -1,3 +1,6 @@
+using System;
+using Cysharp.Threading.Tasks;
+using FairParkVr.Services;
 using UnityEngine;
 
 namespace FairParkVr.Controllers
@@ -6,6 +9,17 @@ namespace FairParkVr.Controllers
     {
         [SerializeField] float _fireDistance = 100f;
         [SerializeField] Transform _firePoint;
+
+        DartBoothService _dartBoothService;
+
+        async void Start()
+        {
+            while (_dartBoothService == null)
+            {
+                _dartBoothService = FindObjectOfType<DartBoothService>();
+                await UniTask.Yield();
+            }
+        }
 
         public void Fire()
         {
@@ -17,6 +31,7 @@ namespace FairParkVr.Controllers
                 {
                     Debug.Log("Fire inside raycast if balloon tag triggered");
                     hit.transform.gameObject.SetActive(false);
+                    _dartBoothService.PopBalloon();
                 }
             }
         }
