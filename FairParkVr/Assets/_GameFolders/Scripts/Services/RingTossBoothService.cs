@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using FairParkVr.Managers;
 using UnityEngine;
 
 namespace FairParkVr.Services
@@ -12,7 +14,7 @@ namespace FairParkVr.Services
 
         public event System.Action<int> OnScoreChanged;
 
-        void Start()
+        async void Start()
         {
             int ringsLength = _rings.Length;
             _ringStartPositions = new Vector3[ringsLength];
@@ -23,6 +25,13 @@ namespace FairParkVr.Services
                 _ringStartPositions[i] = _rings[i].transform.position;
                 _ringStartRotations[i] = _rings[i].transform.rotation;
             }
+
+            while (PrizeManager.Instance == null)
+            {
+                await UniTask.Yield();
+            }
+            
+            PrizeManager.Instance.SetRingToss(this);
         }
 
         public void AddScore()
