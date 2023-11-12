@@ -1,4 +1,3 @@
-using System;
 using FairParkVr.Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +7,7 @@ namespace FairParkVr.Controllers
 {
     public class MainMenuController : MonoBehaviour
     {
+        [SerializeField] GameObject _modalSingleton;
         [SerializeField] ActionBasedControllerManager _rightHandControllerManager;
         [SerializeField] Button _startButton;
         [SerializeField] Button _quitButton;
@@ -36,6 +36,7 @@ namespace FairParkVr.Controllers
         public void OnStartButtonClicked()
         {
             GameManager.Instance.UpdateGameState(GameState.Start);
+            _modalSingleton.SetActive(false);
         }
 
         public void OnQuitButtonClicked()

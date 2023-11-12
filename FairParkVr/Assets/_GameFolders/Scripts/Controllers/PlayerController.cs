@@ -1,4 +1,5 @@
-﻿using FairParkVr.Managers;
+﻿using Cysharp.Threading.Tasks;
+using FairParkVr.Managers;
 using UnityEngine;
 
 namespace FairParkVr.Controllers
@@ -6,14 +7,24 @@ namespace FairParkVr.Controllers
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] GameObject _continuesMoveObject;
+        [SerializeField] GameObject[] _hands;
 
-        void Start()
+        async void Start()
         {
             _continuesMoveObject.SetActive(false);
+
+            await UniTask.Delay(2000);
+
+            foreach (var hand in _hands)
+            {
+                hand.SetActive(true);
+            }
         }
 
-        void OnEnable()
+        async void OnEnable()
         {
+            await UniTask.WaitUntil(() => GameManager.Instance != null);
+            
             GameManager.Instance.OnGameStateChanged += HandleOnGameStateChanged;
         }
 

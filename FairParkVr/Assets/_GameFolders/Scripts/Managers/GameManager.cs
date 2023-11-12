@@ -5,12 +5,11 @@ namespace FairParkVr.Managers
     public class GameManager : MonoBehaviour
     {
         [SerializeField] int _targetFrame;
+        [SerializeField] GameState _gameState;
 
         public static GameManager Instance { get; private set; }
         public event System.Action<GameState> OnGameStateChanged;
 
-        GameState _gameState;
-        
         void Awake()
         {
             if (Instance == null)
@@ -50,6 +49,7 @@ namespace FairParkVr.Managers
         Start,
         Play,
         Pause,
-        Quit
+        Quit,
+        NotSelected
     }
 }
