@@ -13,9 +13,11 @@ namespace FairParkVr.Controllers
         [SerializeField] Button _quitButton;
         [SerializeField] Button _turnToggleButton;
         [SerializeField] Text _turnText;
+        bool _isMenuOpen;
 
         void Start()
         {
+            _isMenuOpen = _modalSingleton.gameObject.activeSelf;
             SetToggleText();
         }
 
@@ -42,6 +44,22 @@ namespace FairParkVr.Controllers
         public void OnQuitButtonClicked()
         {
             GameManager.Instance.UpdateGameState(GameState.Quit);
+        }
+
+        public void OnToggleMenu()
+        {
+            _isMenuOpen = !_isMenuOpen;
+
+            _modalSingleton.SetActive(_isMenuOpen);
+
+            if (_isMenuOpen)
+            {
+                GameManager.Instance.UpdateGameState(GameState.Pause);
+            }
+            else
+            {
+                GameManager.Instance.UpdateGameState(GameState.Play);
+            }
         }
 
         void HandleOnToggleButtonClicked()
